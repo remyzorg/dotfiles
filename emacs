@@ -82,9 +82,10 @@
 
 
 (load "~/.emacs.d/color-theme-molokai.el")
-(load "~/.emacs.d/hemisu/hemisu-dark-theme.el")
-;; (color-theme-molokai)
+;; (load "~/.emacs.d/hemisu/hemisu-dark-theme.el")
+(color-theme-molokai)
 
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
 (global-set-key [f1] 'previous-buffer)
 (global-set-key [f2] 'next-buffer)

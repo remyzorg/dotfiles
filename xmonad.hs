@@ -36,9 +36,11 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.WindowArranger
 
+    
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
+
 
  -- yes, these are functions; just very simple ones
  -- that accept no input and return static values
@@ -94,5 +96,5 @@ startup = do
 	spawn "konsole"
 	
 	
-	 
+
  
