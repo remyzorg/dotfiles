@@ -7,4 +7,4 @@ install:
 	cp -f xmobarrc ~/.xmobarrc
 	cp -f xmonad.hs ~/.xmonad/
 	cp -f zshrc .zshrc
-	cp -f stalonetrayrc .stalonetrayrc
+	cp -f stalonetrayrc ~/.stalonetrayrc
