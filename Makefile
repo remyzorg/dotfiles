@@ -6,5 +6,5 @@ install:
 	cp -f vimrc ~/.vimrc
 	cp -f xmobarrc ~/.xmobarrc
 	cp -f xmonad.hs ~/.xmonad/
-	cp -f zshrc .zshrc
+	cp -f zshrc ~/.zshrc
 	cp -f stalonetrayrc ~/.stalonetrayrc

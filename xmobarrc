@@ -17,4 +17,5 @@ Config { font         = "-misc-fixed-*-*-*-*-12-*-*-*-*-*-*-*"
                         ]
        , sepChar      = "%"
        , alignSep     = "}{"
-       , template     = "%StdinReader% }{ %CYVR% | <fc=#ee9a00>%date%</fc>"
+       , template     = " }{ %StdinReader% | %CYVR% | <fc=#ee9a00>%date%</fc>"
+}
