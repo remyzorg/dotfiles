@@ -26,6 +26,7 @@ set MANPATH $MANPATH  /usr/share/man
 alias st="git status"
 alias com="git commit -am"
 alias e="emacs"
-
+alias zotero="~/bin/Zotero/zotero"
+alias rd="rmdir"
 
 
