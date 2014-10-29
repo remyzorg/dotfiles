@@ -81,9 +81,9 @@ set tabstop=4
 set ignorecase
 
 " Le découpage des folders se base sur l'indentation
-set foldmethod=indent
+" set foldmethod=indent
 " 12 niveaux d'indentation par défaut pour les folders
-set foldlevel=12
+" set foldlevel=12
 
 " Recherches incrémentalees : rechercher au fur et à mesure qu'on
 " tape le motif de recherche
@@ -94,7 +94,7 @@ set incsearch
 " Décommentez la ligne suivante si vous voulez afficher les numéros de ligne
 set number
 
-set mouse=a
+" set mouse=a
 set autoindent
 set tags+=~/.vim/tags/tags
 set nocp
