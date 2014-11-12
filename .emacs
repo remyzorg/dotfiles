@@ -10,6 +10,7 @@
   (set-frame-height (selected-frame) 78))
 (mouse-wheel-mode t)
 
+(set-default-font "Inconsolata-12")
 
 (setq shell-file-name "zsh")
 (setq shell-command-switch "-ic")
@@ -91,6 +92,7 @@
 (global-set-key [f2] 'next-buffer)
 (global-set-key [f3] 'kill-buffer)
 (global-set-key [f5] 'compile)
+(global-set-key [f6] 'recompile)
 (global-set-key [f7] 'next-error)
 (global-set-key [f8] 'kill-compilation)
 
@@ -107,10 +109,23 @@
   ;; Invoke login shells, so that .profile or .bash_profile is read
   (setq shell-command-switch "-lc")))
 
+;; Add opam emacs directory to the load-path
+(setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
 
-  
+(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+
+;; (load-file (concat opam-share "/emacs/site-lisp/ocp-indent.el"))
+;; (load-file (concat opam-share "/emacs/site-lisp/merlin.el"))
+
+;; Load merlin-mode
+(require 'merlin)
+;; Start merlin on ocaml files
+(add-hook 'tuareg-mode-hook 'merlin-mode t)
+(add-hook 'caml-mode-hook 'merlin-mode t)
+;; Enable auto-complete
+(setq merlin-use-auto-complete-mode 'easy)
+;; Use opam switch to lookup ocamlmerlin binary
+(setq merlin-command 'opam)
+
 (with-temp-buffer (insert (shell-command-to-string "ocp-edit-mode emacs -load-global-config")) (eval-buffer))
 
-
-
-  

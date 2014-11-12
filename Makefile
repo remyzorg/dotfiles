@@ -1,7 +1,7 @@
 
 install:
 	cp -f config.fish ~/.config/fish/
-	cp -f emacs ~/.emacs
+	cp -f .emacs ~/.emacs
 	cp -rf emacs.d ~/.emacs.d
 	cp -f vimrc ~/.vimrc
 	cp -f xmobarrc ~/.xmobarrc
