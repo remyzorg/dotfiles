@@ -5,12 +5,23 @@
 ; configuration globale
 ;----------------------
 
+
+(require 'package)
+  (push '("marmalade" . "http://marmalade-repo.org/packages/")
+		        package-archives )
+  (push '("melpa" . "http://melpa.milkbox.net/packages/")
+		        package-archives)
+
+(package-initialize)
+(evil-mode 1)  
+
+
 (set-face-attribute 'default nil :height 89)
 (if (window-system)
   (set-frame-height (selected-frame) 78))
 (mouse-wheel-mode t)
 
-(set-default-font "Inconsolata-12")
+;;(set-default-font "Inconsolata-12")
 
 (setq shell-file-name "zsh")
 (setq shell-command-switch "-ic")
@@ -69,9 +80,8 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(add-to-list 'load-path "~/.emacs.d/evil")
-    (require 'evil)
-    (evil-mode 1)
+(require 'evil)
+(evil-mode 1)
 
 
 (add-to-list 'load-path "~/.emacs.d")
@@ -127,5 +137,6 @@
 ;; Use opam switch to lookup ocamlmerlin binary
 (setq merlin-command 'opam)
 
-(with-temp-buffer (insert (shell-command-to-string "ocp-edit-mode emacs -load-global-config")) (eval-buffer))
 
+(load-file "/home/remy/.opam/4.02.1/share/emacs/site-lisp/ocp-indent.el")
+(with-temp-buffer (insert (shell-command-to-string "ocp-edit-mode emacs -load-global-config")) (eval-buffer))

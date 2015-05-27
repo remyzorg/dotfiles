@@ -13,6 +13,7 @@ import XMonad.Prompt
 import XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
 import XMonad.Util.Run
 import XMonad.Actions.CycleWS
+import XMonad.Actions.Volume
 
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -36,7 +37,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.WindowArranger
 
-    
+import XMonad.Util.Dzen
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -48,6 +49,7 @@ myTerminal    = "konsole"
 myModMask     = mod4Mask -- Win key or Super_L
 myBorderWidth = 2
 
+alert = dzenConfig return . show
 
 myWorkspaces = map show [1..9]
 
@@ -87,7 +89,9 @@ myConfig = azertyConfig {
 
 myKeys =
   [ 
-	((mod4Mask, 	              xK_z             ), spawn "xscreensaver-command -lock")
+	((mod4Mask, 	              xK_z             ), spawn "xscreensaver-command -lock"),
+	((mod4Mask, xK_F10), lowerVolume 4 >>= alert),
+        ((mod4Mask, xK_F11), raiseVolume 4 >>= alert)
   ]
 
 startup :: X()

@@ -6,15 +6,21 @@
 " ':help options.txt' ou ':help nom_du_paramètre' dans Vim
 " pour avoir de l'aide sur les paramètres de ce fichier de configuration
 
-" Avertissement par flash (visual bell) plutôt que par beep
-set vb
+set novisualbell
+
+execute pathogen#infect()
+
+
 
 " Active la coloration syntaxique
 syntax on
 " Définit le jeu de couleurs utilisé
 " Les jeux de couleur disponibles sont les fichiers avec l'extension .vim
 " dans le répertoire /usr/share/vim/vimcurrent/colors/
-colorscheme desert
+colorscheme hemisu
+set background=light
+
+set autoread
 
 " Affiche la position du curseur 'ligne,colonne'
 set ruler
@@ -141,6 +147,8 @@ map <C-f> gg=G
 nmap <C-f> gg=G
 imap <C-f> <Esc>gg=Gi
 
+imap fd <Esc>
+vmap fd <Esc>
 
 map <F9> :make<CR>
 nmap <F9> :make<CR>
@@ -158,17 +166,35 @@ map <C-s> :w<CR>
 nmap <C-s> :w<CR>
 imap <C-s> <Esc> :w<CR>i
 
-map <C-Up> :tabnew<CR>
-nmap <C-Up> :tabnew<CR>
-imap <C-Up> <Esc> :tabnew<CR>
+map <C-Up> :new<CR>
+nmap <C-Up> :new<CR>
+imap <C-Up> <Esc> :new<CR>
 
-map <C-Right> :tabnext<CR>
-nmap <C-Right> :tabnext<CR>
-imap <C-Right> <Esc> :tabnext<CR>
+map <C-Right> :bnext<CR>
+nmap <C-Right> :bnext<CR>
+imap <C-Right> <Esc> :bnext<CR>
 
-map <C-Left> :tabprevious<CR>
-nmap <C-Left> :tabprevious<CR>
-imap <C-Left> <Esc> :tabprevious<CR>
+map <C-Left> :bprevious<CR>
+nmap <C-Left> :bprevious<CR>
+imap <C-Left> <Esc> :bprevious<CR>
+
+"Ocaml Configuration
+au BufEnter *.ml setf ocaml
+au BufEnter *.mli setf ocaml
+au FileType ocaml call FT_ocaml()
+
+function FT_ocaml()
+    set textwidth=80
+    set colorcolumn=80
+    set shiftwidth=2
+    set tabstop=2
+    " ocp-indent with ocp-indent-vim
+    let opamshare=system("opam config var share | tr -d '\n'")
+    execute "autocmd FileType ocaml source".opamshare."/vim/syntax/ocp-indent.vim"
+    filetype indent on
+    filetype plugin indent on
+endfunction
+
 
 
 
