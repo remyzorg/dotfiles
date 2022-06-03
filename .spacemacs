@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(csv
      yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -52,33 +52,35 @@ values."
      ivy
      (rust :variables rust-backend 'racer)
      javascript
-     lua
      markdown
      sql
      html
      shell-scripts
      latex
-     haskell
      git
      ocaml
      themes-megapack
      (reasonml :variables reason-auto-refmt t)
      (keyboard-layout :variables
-                           kl-layout 'bepo
-                    kl-disabled-configurations '(org magit))
+                      kl-layout 'bepo
+                      kl-disabled-configurations '(org))
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
+                                      reformatter
                                       prettier-js
+                                      fira-code-mode
                                       )
    ;; A list of packages that cannot be updated.
+
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(
                                     window-purpose
+                                    smartparens
                                     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -152,9 +154,9 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Fira Code"
                                :size 16
-                               :weight normal
+                               :weight light
                                :width normal
                                :powerline-scale 1.1)
    ;; The leader key
@@ -330,7 +332,8 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-  (turn-on-fci-mode)
+  (use-package fira-code-mode
+    :config (global-fira-code-mode))
 
   (setq shell-file-name "zsh")
   (setq shell-command-switch "-ic")
@@ -357,21 +360,15 @@ you should place your code here."
   (setq whitespace-style '(face lines-tail))
   (add-hook 'tuareg-mode-hook 'whitespace-mode)
 
-
-  (remove-hook 'prog-mode-hook #'smartparens-mode)
-  (spacemacs/toggle-smartparens-globally-off)
-
-  (global-prettify-symbols-mode 1)
-  (setq ocaml-symbols-list '(lambda ()
-                              (mapc (lambda (pair) (push pair prettify-symbols-alist))
-                                    '(("->". ?→)
-                                      ("|>". ?▷)
-                                      ("@@". ?◉)
-                                      ))))
+  ;; (global-prettify-symbols-mode 1)
+  ;; (setq ocaml-symbols-list '(lambda ()
+  ;;                             (mapc (lambda (pair) (push pair prettify-symbols-alist))
+  ;;                                   '(("->". ?→)
+  ;;                                     ("|>". ?▷)
+  ;;                                     ("@@". ?◉)
+  ;;                                     ))))
 
   (add-hook 'tuareg-mode-hook #'(lambda() (setq mode-name "🐫")))
-
-  (add-hook 'tuareg-mode-hook ocaml-symbols-list)
 
   (require 'ocamlformat)
 
@@ -380,18 +377,6 @@ you should place your code here."
     (add-hook 'before-save-hook #'ocamlformat-before-save)))
 
   (setq recentf-exclude '("/tmp/*"))
-
-  (defun +ocamlformat-eliom-kind-a (&rest _)
-    "Checks the formatted buffer's name for `eliomi' or `eliom'"
-    (interactive)
-    (when (eq major-mode 'tuareg-mode)
-      (let ((ext (file-name-extension buffer-file-name t)))
-        (cond ((equal ext ".eliom")
-               (setq ocamlformat-file-kind 'implementation))
-              ((equal ext ".eliomi")
-               (setq ocamlformat-file-kind 'interface))))))
-
-  (advice-add #'ocamlformat :before #'+ocamlformat-eliom-kind-a)
 
   (defun opam-env ()
     (interactive nil)
@@ -405,6 +390,9 @@ you should place your code here."
   (setq compilation-scroll-output 'first-error)
 
   (setq rust-format-on-save t)
+
+  (custom-set-faces
+   '(merlin-eldoc-occurrences nil))
 
   )
 
@@ -425,3 +413,24 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-idle-delay 1)
+ '(evil-want-Y-yank-to-eol nil)
+ '(package-selected-packages
+   '(tern rainbow-identifiers toml-mode racer flycheck-rust cargo rust-mode telega visual-fill-column prettier-js flycheck-pos-tip pos-tip flycheck-haskell zonokai-theme yaml-mode spinner parent-mode flx highlight evil goto-chg undo-tree popup pkg-info epl bind-map bind-key packed f s hydra projectile counsel swiper ivy avy anzu iedit smartparens async powerline dash zenburn-theme zen-and-art-theme yapfify white-sand-theme web-mode web-beautify utop underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme tuareg caml toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode seti-theme scss-mode sass-mode reverse-theme rebecca-theme railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme planet-theme pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme orgit organic-green-theme org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download omtose-phellack-theme oldlace-theme ocp-indent occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme merlin material-theme markdown-toc markdown-mode majapahit-theme magit-gitflow magit-popup madhat2r-theme lush-theme lua-mode livid-mode skewer-mode simple-httpd live-py-mode light-soap-theme json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc jbeans-theme jazz-theme ir-black-theme intero flycheck insert-shebang inkpot-theme hy-mode dash-functional htmlize hlint-refactor hindent heroku-theme hemisu-theme hc-zenburn-theme haskell-snippets yasnippet haml-mode gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md gandalf-theme flatui-theme flatland-theme fish-mode farmhouse-theme exotica-theme evil-magit magit transient git-commit with-editor lv espresso-theme emmet-mode dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme company-ghci company-ghc ghc company haskell-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized coffee-mode cmm-mode clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auctex-latexmk auctex apropospriate-theme anti-zenburn-theme anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+)
